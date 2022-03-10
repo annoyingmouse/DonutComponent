@@ -55,7 +55,7 @@
     static get observedAttributes() {
       return [
         'donut-values',
-        'hole-colour',
+        'hole-color',
         'animation-duration'
       ];
     }
@@ -64,9 +64,25 @@
       this.attachShadow({ mode: 'open' });
       this.shadowRoot.appendChild(template.content.cloneNode(true));
       this.hole = this.shadowRoot.querySelector('.center')
-      this.hole.style.backgroundColor = this.holeColour
+      this.hole.style.backgroundColor = this.holecolor
       this.chart = this.shadowRoot.querySelector('.donut-chart')
       this.addSlices();
+    }
+    processData() {
+      const data = []
+      const nameTest = new RegExp(/-name$/)
+      const attributes = [...this.attributes]
+      attributes.forEach(attribute => {
+        if (nameTest.test(attribute.nodeName)) {
+          data.push({name: attribute.nodeName.replace(nameTest, '')})
+        }
+      })
+      data.forEach(obj => {
+        obj.value = Number(this.getAttribute(`${obj.name}-value`))
+        obj.color = this.getAttribute(`${obj.name}-color`)
+      })
+      console.log(data)
+      //this.addSlices()
     }
     addSlices() {
       const total = this.donutValues.reduce((previousValue, currentValue) => previousValue + Number(currentValue.value), 0)
@@ -90,7 +106,7 @@
         const circle = document.createElement('div')
         circle.classList.add('circle')
         circle.setAttribute('title', element.name)
-        circle.style.backgroundColor = element.colour
+        circle.style.backgroundColor = element.color
         circle.style.animationFillMode = 'forwards'
         circle.style.animationIterationCount = '1'
         circle.style.animationDelay = `${durationTotal}s`
@@ -109,8 +125,8 @@
     get animationDuration() {
       return Number(this.getAttribute('animation-duration')) || 3
     }
-    get holeColour() {
-      return this.getAttribute('hole-colour')
+    get holecolor() {
+      return this.getAttribute('hole-color')
     }
   }
 

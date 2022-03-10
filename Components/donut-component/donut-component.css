@@ -1,0 +1,39 @@
+:host {
+  --dimension: 150px;
+}
+* {
+  box-sizing: border-box;
+}
+.donut-chart {
+  position: relative;
+  width: var(--dimension);
+  height: var(--dimension);
+  margin: 0 auto;
+  border-radius: 100%
+}
+.center {
+  position: absolute;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
+  width: calc(var(--dimension) * .65);
+  height: calc(var(--dimension) * .65);
+  margin: auto;
+  border-radius: 50%;
+}
+.portion-block {
+  border-radius: 50%;
+  clip: rect(0, var(--dimension), var(--dimension), calc(var(--dimension) * .5));
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+.circle {
+  border-radius: 50%;
+  clip: rect(0, calc(var(--dimension) * .5), var(--dimension), 0);
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  font-size: 1.5rem;
+}

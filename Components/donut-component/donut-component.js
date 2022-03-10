@@ -1,50 +1,16 @@
+import Helpers from '../Helpers.js'
 (() => {
   /**
    * Inspired by: https://codepen.io/hilar47/pen/RprXev
    * @type {HTMLTemplateElement}
    */
+
   const template = document.createElement('template')
+
+  const compPath = import.meta.url.split('.').slice(0, -1).join('.')
   template.innerHTML = `
     <style>
-      :host {
-        --dimension: 150px;
-      }
-      * {
-        box-sizing: border-box;
-      }
-      .donut-chart {
-        position: relative;
-        width: var(--dimension);
-        height: var(--dimension);
-        margin: 0 auto;
-        border-radius: 100%
-       }
-      .center {
-        position: absolute;
-        top:0;
-        left:0;
-        bottom:0;
-        right:0;
-        width: calc(var(--dimension) * .65);
-        height: calc(var(--dimension) * .65);
-        margin: auto;
-        border-radius: 50%;
-      }
-      .portion-block {
-        border-radius: 50%;
-        clip: rect(0, var(--dimension), var(--dimension), calc(var(--dimension) * .5));
-        height: 100%;
-        position: absolute;
-        width: 100%;
-      }
-      .circle {
-        border-radius: 50%;
-        clip: rect(0, calc(var(--dimension) * .5), var(--dimension), 0);
-        height: 100%;
-        position: absolute;
-        width: 100%;
-        font-size: 1.5rem;
-      }
+      @import "${compPath}.css";
     </style>
     <div class="donut-chart">
       <div class="center"></div>
@@ -54,41 +20,49 @@
   class DonutComponent extends HTMLElement {
     static get observedAttributes() {
       return [
-        'donut-values',
-        'hole-color',
-        'animation-duration'
+        'values',
+        'hole-color'
       ];
     }
     constructor() {
-      super();
-      this.attachShadow({ mode: 'open' });
-      this.shadowRoot.appendChild(template.content.cloneNode(true));
+      super()
+      this.attachShadow({ mode: 'open' })
+      this.shadowRoot.appendChild(template.content.cloneNode(true))
       this.hole = this.shadowRoot.querySelector('.center')
       this.hole.style.backgroundColor = this.holecolor
       this.chart = this.shadowRoot.querySelector('.donut-chart')
-      this.addSlices();
+      if(this.hasAttribute('values')){
+        this.values = JSON.parse(this.getAttribute('values'))
+        this.addSlices()
+      }else{
+        this.processData()
+      }
     }
     processData() {
-      const data = []
+      this.values = []
       const nameTest = new RegExp(/-name$/)
       const attributes = [...this.attributes]
       attributes.forEach(attribute => {
         if (nameTest.test(attribute.nodeName)) {
-          data.push({name: attribute.nodeName.replace(nameTest, '')})
+          this.values.push({name: attribute.nodeName.replace(nameTest, '')})
         }
       })
-      data.forEach(obj => {
+      this.values.forEach(obj => {
         obj.value = Number(this.getAttribute(`${obj.name}-value`))
         obj.color = this.getAttribute(`${obj.name}-color`)
       })
-      console.log(data)
-      //this.addSlices()
+      //this.checkData()
+      console.log(this.values)
+      this.addSlices()
+    }
+    checkdata() {
+
     }
     addSlices() {
-      const total = this.donutValues.reduce((previousValue, currentValue) => previousValue + Number(currentValue.value), 0)
+      const total = this.values.reduce((previousValue, currentValue) => previousValue + Number(currentValue.value), 0)
       let rotationTotal = 0
       let durationTotal = 0
-      this.donutValues.forEach((element, index) => {
+      this.values.forEach(element => {
         const animationDuration = ((360/total) * Number(element.value)) / (360/this.animationDuration)
         const currentRotation = (360/total) * Number(element.value)
         const style = document.createElement('style')
@@ -99,28 +73,35 @@
           }
         `
         this.shadowRoot.prepend(style);
-        const slice = document.createElement('div')
-        slice.id = sanitiseName(element.name)
-        slice.classList.add('portion-block')
-        slice.style.transform = `rotate(${rotationTotal}deg)`
-        const circle = document.createElement('div')
-        circle.classList.add('circle')
-        circle.setAttribute('title', element.name)
-        circle.style.backgroundColor = element.color
-        circle.style.animationFillMode = 'forwards'
-        circle.style.animationIterationCount = '1'
-        circle.style.animationDelay = `${durationTotal}s`
-        circle.style.animationDuration = `${animationDuration}s`
-        circle.style.animationTimingFunction = 'ease'
-        circle.style.animationName = sanitiseName(element.name)
+        const slice = Helpers.createElement('div')
+        Helpers.setAttributes(slice, {
+          'id': sanitiseName(element.name),
+          'class': 'portion-block',
+          'style': `transform: rotate(${rotationTotal}deg)`
+        })
+
+        const circle = Helpers.createAndPopulate(
+          'div',
+          null,
+          {
+            'class': 'circle',
+            title: element.name
+          },
+          {
+            backgroundColor: element.color,
+            animationFillMode: 'forwards',
+            animationIterationCount: '1',
+            animationDelay: `${durationTotal}s`,
+            animationDuration: `${animationDuration}s`,
+            animationTimingFunction: 'ease',
+            animationName: sanitiseName(element.name)
+          }
+        )
         slice.append(circle)
         this.chart.prepend(slice)
         rotationTotal += currentRotation
         durationTotal += animationDuration
       })
-    }
-    get donutValues() {
-      return JSON.parse(this.getAttribute('donut-values'))
     }
     get animationDuration() {
       return Number(this.getAttribute('animation-duration')) || 3

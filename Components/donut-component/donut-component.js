@@ -4,9 +4,7 @@ import Helpers from '../Helpers.js'
    * Inspired by: https://codepen.io/hilar47/pen/RprXev
    * @type {HTMLTemplateElement}
    */
-
   const template = document.createElement('template')
-
   const compPath = import.meta.url.split('.').slice(0, -1).join('.')
   template.innerHTML = `
     <style>
@@ -19,6 +17,7 @@ import Helpers from '../Helpers.js'
   const sanitiseName = value => value.replace(/[\s!"#$%&'()*+,./:;<=>?@[\\\]^`{|}~]/g, '').toLowerCase()
   class DonutComponent extends HTMLElement {
     static get observedAttributes() {
+      console.log(this.attributes)
       return [
         'values',
         'hole-color'
@@ -28,6 +27,8 @@ import Helpers from '../Helpers.js'
       super()
       this.attachShadow({ mode: 'open' })
       this.shadowRoot.appendChild(template.content.cloneNode(true))
+      this.render()
+      this.container = this.shadowRoot.querySelector('.donut-chart')
       this.hole = this.shadowRoot.querySelector('.center')
       this.hole.style.backgroundColor = this.holecolor
       this.chart = this.shadowRoot.querySelector('.donut-chart')
@@ -37,6 +38,9 @@ import Helpers from '../Helpers.js'
       }else{
         this.processData()
       }
+    }
+    render(){
+
     }
     processData() {
       this.values = []
@@ -51,12 +55,8 @@ import Helpers from '../Helpers.js'
         obj.value = Number(this.getAttribute(`${obj.name}-value`))
         obj.color = this.getAttribute(`${obj.name}-color`)
       })
-      //this.checkData()
       console.log(this.values)
       this.addSlices()
-    }
-    checkdata() {
-
     }
     addSlices() {
       const total = this.values.reduce((previousValue, currentValue) => previousValue + Number(currentValue.value), 0)
@@ -108,6 +108,12 @@ import Helpers from '../Helpers.js'
     }
     get holecolor() {
       return this.getAttribute('hole-color')
+    }
+    attributeChangedCallback(name, oldValue, newValue) {
+      if (oldValue === newValue) {
+        return;
+      }
+      console.log(`${name} changed, from ${oldValue} to ${newValue}`)
     }
   }
 

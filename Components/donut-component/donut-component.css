@@ -22,13 +22,6 @@
   margin: auto;
   border-radius: 50%;
 }
-.portion-block {
-  border-radius: 50%;
-  clip: rect(0, var(--dimension), var(--dimension), calc(var(--dimension) * .5));
-  height: 100%;
-  position: absolute;
-  width: 100%;
-}
 .circle {
   border-radius: 50%;
   clip: rect(0, calc(var(--dimension) * .5), var(--dimension), 0);

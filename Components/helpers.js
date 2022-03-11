@@ -8,11 +8,16 @@ export default class Helpers {
     return element.appendChild(document.createTextNode(text))
   }
 
-  static createAndPopulate(element, text = null, attributes = null, styles = null) {
+  static setInnerHTML (element, text) {
+    return element.innerHTML = text
+  }
+
+  static createAndPopulate(element, text = null, attributes = null, styles = null, content = null) {
     const el = this.createElement(element)
     text && Helpers.setText(el, text)
     attributes && Helpers.setAttributes(el, attributes)
     styles && Helpers.setStyles(el, styles)
+    content && Helpers.setInnerHTML(el, content)
     return el
   }
 

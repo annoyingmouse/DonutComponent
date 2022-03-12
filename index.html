@@ -8,6 +8,21 @@
 <body>
   <h1>Donut Component</h1>
   <donut-component id="test"
+                   values='[
+                     {
+                       "name":"Part 1",
+                       "value":5,
+                       "color":"black"
+                     },{
+                       "name":"Part 2",
+                       "value":5,
+                       "color":"rgba(252, 194, 51, 0.8)"
+                     },{
+                       "name":"Part 3",
+                       "value":5,
+                       "color":"rgba(53, 57, 44, 0.5)"
+                     }
+                   ]'
                    part-1-value="5"
                    part-1-name="Part 1"
                    part-1-color="#E64C65"
@@ -19,6 +34,8 @@
                    part-3-color="#4FC4F6"
                    animation-duration="3"
                    hole-color="#394264"></donut-component>
+  <donut-component id="grey"></donut-component>
+
   <table>
     <tr>
       <td>
@@ -65,14 +82,51 @@
       setTimeout(() => {
         const test = document.getElementById('test')
         test.setAttribute('hole-color', '#ffffff')
-      }, 2000)
+      }, 3000)
       setTimeout(() => {
         const test = document.getElementById('test')
         test.setAttribute('animation-duration', '7')
-      }, 5000)
+      }, 6000)
 
+      const getRandomColor = () => {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
 
+      setTimeout(() => {
+        const test = document.getElementById('test')
+        const segments = Math.floor(Math.random() * 20) + 1;
+        const arr = []
+        for(let i = 0; i < segments; i++){
+          arr.push({
+            name: Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5),
+            value: Math.floor(Math.random() * 100) + 1,
+            color: getRandomColor()
+          })
+        }
+        test.setAttribute('values', JSON.stringify(arr))
+        test.setAttribute('animation-duration', Math.floor(Math.random() * 9) + 2)
+        test.setAttribute('hole-color', getRandomColor())
+      }, 13000)
     })()
+
+    const greys = ['#000000', '#080808', '#101010', '#181818', '#202020', '#282828', '#303030', '#383838', '#404040', '#484848', '#505050', '#585858', '#606060', '#686868', '#696969', '#707070', '#787878', '#808080', '#888888', '#909090', '#989898', '#A0A0A0', '#A8A8A8', '#A9A9A9', '#B0B0B0', '#B8B8B8', '#BEBEBE', '#C0C0C0', '#C8C8C8', '#D0D0D0', '#D3D3D3', '#D8D8D8', '#DCDCDC', '#E0E0E0', '#E8E8E8', '#F0F0F0', '#F5F5F5', '#F8F8F8', '#FFFFFF']
+    const grey = document.getElementById('grey')
+    grey.setAttribute('hole-color', '#000000')
+    grey.setAttribute('animation-duration', '5')
+    grey.setAttribute('values', JSON.stringify(greys.reduce((previousValue, currentValue) => {
+      previousValue.push({
+        name: `Part ${currentValue}`,
+        color: currentValue,
+        value: 1
+      })
+      return previousValue
+    }, [])))
+
   </script>
 </body>
 </html>

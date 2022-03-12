@@ -118,9 +118,10 @@ import Helpers from '../Helpers.js'
         previousValue + Number(currentValue.value), 0)
       let rotationTotal = 0
       let durationTotal = 0
+      const totalDegree = 360/total
       this.values.forEach(element => {
-        const animationDuration = ((360/total) * Number(element.value)) / (360/this.animationDuration)
-        const currentRotation = (360/total) * Number(element.value)
+        const currentRotation = totalDegree * Number(element.value)
+        const animationDuration = currentRotation / (360/this.animationDuration)
         this.shadowRoot.prepend(this.createStyle(element.name, currentRotation));
         const slice = this.createSlice(element.name, rotationTotal)
         slice.append(this.createCircle(element.name, element.color, durationTotal, animationDuration))

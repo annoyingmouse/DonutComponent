@@ -1,4 +1,4 @@
-export default class Helpers {
+export default class DomHelpers {
 
   static createElement(element) {
     return document.createElement(element)
@@ -14,10 +14,10 @@ export default class Helpers {
 
   static createAndPopulate(element, text = null, attributes = null, styles = null, content = null) {
     const el = this.createElement(element)
-    text && Helpers.setText(el, text)
-    attributes && Helpers.setAttributes(el, attributes)
-    styles && Helpers.setStyles(el, styles)
-    content && Helpers.setInnerHTML(el, content)
+    text && DomHelpers.setText(el, text)
+    attributes && DomHelpers.setAttributes(el, attributes)
+    styles && DomHelpers.setStyles(el, styles)
+    content && DomHelpers.setInnerHTML(el, content)
     return el
   }
 

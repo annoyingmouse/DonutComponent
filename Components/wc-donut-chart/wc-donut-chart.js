@@ -1,4 +1,4 @@
-import Helpers from '../Helpers.js'
+import DomHelpers from '../wc-dom-helpers.js'
 (() => {
   /**
    * Inspired by: https://codepen.io/hilar47/pen/RprXev
@@ -15,7 +15,7 @@ import Helpers from '../Helpers.js'
     </div>
   `
   const sanitiseName = value => value.replace(/[\s!"#$%&'()*+,./:;<=>?@[\\\]^`{|}~]/g, '').toLowerCase()
-  class DonutComponent extends HTMLElement {
+  class DonutChart extends HTMLElement {
     static get observedAttributes() {
       return [
         'values',
@@ -25,20 +25,22 @@ import Helpers from '../Helpers.js'
     }
     constructor() {
       super()
-      this.attachShadow({ mode: 'open' })
-      this.shadowRoot.appendChild(template.content.cloneNode(true))
-      this.container = this.shadowRoot.querySelector('.donut-chart')
+      this.shadow = this.attachShadow({
+        mode: 'closed'
+      })
+      this.shadow.appendChild(template.content.cloneNode(true))
+      this.container = this.shadow.querySelector('.donut-chart')
       this.render()
     }
     clearUp() {
-      this.shadowRoot.querySelectorAll('style[id$="_style"]').forEach(injectedStyleSheet => injectedStyleSheet.remove())
+      this.shadow.querySelectorAll('style[id$="_style"]').forEach(injectedStyleSheet => injectedStyleSheet.remove())
       this.container.querySelectorAll(':not([class])').forEach(injectedDiv => injectedDiv.remove())
     }
     render(){
       this.clearUp()
-      this.hole = this.shadowRoot.querySelector('.center')
+      this.hole = this.shadow.querySelector('.center')
       this.hole.style.backgroundColor = this.holecolor
-      this.chart = this.shadowRoot.querySelector('.donut-chart')
+      this.chart = this.shadow.querySelector('.donut-chart')
       if(this.hasAttribute('values')){
         this.values = JSON.parse(this.getAttribute('values'))
         this.addSlices()
@@ -63,7 +65,7 @@ import Helpers from '../Helpers.js'
       })
       this.addSlices()
     }
-    createStyle = (name, currentRotation) => Helpers.createAndPopulate(
+    createStyle = (name, currentRotation) => DomHelpers.createAndPopulate(
       'style',
       null,
       {
@@ -81,7 +83,7 @@ import Helpers from '../Helpers.js'
         }
       `
     )
-    createSlice = (name, rotationTotal) => Helpers.createAndPopulate(
+    createSlice = (name, rotationTotal) => DomHelpers.createAndPopulate(
       'div',
       null,
       {
@@ -96,7 +98,7 @@ import Helpers from '../Helpers.js'
         width: '100%'
       }
     )
-    createCircle = (name, color, durationTotal, animationDuration) => Helpers.createAndPopulate(
+    createCircle = (name, color, durationTotal, animationDuration) => DomHelpers.createAndPopulate(
       'div',
       null,
       {
@@ -122,7 +124,7 @@ import Helpers from '../Helpers.js'
       this.values.forEach(element => {
         const currentRotation = totalDegree * Number(element.value)
         const animationDuration = currentRotation / (360/this.animationDuration)
-        this.shadowRoot.prepend(this.createStyle(element.name, currentRotation));
+        this.shadow.prepend(this.createStyle(element.name, currentRotation));
         const slice = this.createSlice(element.name, rotationTotal)
         slice.append(this.createCircle(element.name, element.color, durationTotal, animationDuration))
         this.chart.prepend(slice)
@@ -142,5 +144,5 @@ import Helpers from '../Helpers.js'
       }
     }
   }
-  window.customElements.define('donut-component', DonutComponent)
+  window.customElements.define('wc-donut-chart', DonutChart)
 })()

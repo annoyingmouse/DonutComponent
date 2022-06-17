@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>With Slots</title>
+<!--  <script type="module" src="Components/wc-donut-chart-slot/wc-donut-chart-slot.js"></script>-->
+  <script type="module" src="Components/wc-donut-chart-part/wc-donut-chart-part.js"></script>
+  <style>
+    :root {
+      --dimension: 200px;
+    }
+    @keyframes part-3 {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(120deg);
+      }
+    }
+
+    @keyframes part-2 {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(120deg);
+      }
+    }
+
+    @keyframes part-1 {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(120deg);
+      }
+    }
+
+    :host {
+      --dimension: 200px;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    .donut-chart {
+      position: relative;
+      width: var(--dimension);
+      height: var(--dimension);
+      margin: 0 auto;
+      border-radius: 100%
+    }
+    .center {
+      position: absolute;
+      top:0;
+      left:0;
+      bottom:0;
+      right:0;
+      width: calc(var(--dimension) * .65);
+      height: calc(var(--dimension) * .65);
+      margin: auto;
+      border-radius: 50%;
+    }
+    .circle {
+      border-radius: 50%;
+      clip: rect(0, calc(var(--dimension) * .5), var(--dimension), 0);
+      height: 100%;
+      position: absolute;
+      width: 100%;
+      font-size: 1.5rem;
+    }
+
+    .donut-chart {
+      position: relative;
+      width: var(--dimension);
+      height: var(--dimension);
+      margin: 0 auto;
+      border-radius: 100%;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="donut-chart">
+    <wc-donut-chart-part color="#4FC4F6"
+                         delay="2s"
+                         duration="1s"
+                         title="Part 3"
+                         end="120deg"
+                         rotate="240deg"></wc-donut-chart-part>
+    <wc-donut-chart-part color="#11A8AB"
+                         delay="1s"
+                         duration="1s"
+                         title="Part 2"
+                         end="120deg"
+                         rotate="120deg"></wc-donut-chart-part>
+    <wc-donut-chart-part color="#E64C65"
+                         delay="0"
+                         duration="1s"
+                         title="Part 1"
+                         end="120deg"
+                         rotate="0deg"></wc-donut-chart-part>
+    <div class="center" style="background-color: rgb(57, 66, 100);"></div>
+  </div>
+
+
+
+
+<!--  <wc-donut-chart animation-duration="3"-->
+<!--                  hole-color="#394264">-->
+<!--    <wc-donut-part value="5"-->
+<!--                   name="Part 1"-->
+<!--                   color="#E64C65"></wc-donut-part>-->
+<!--    <wc-donut-part value="5"-->
+<!--                   name="Part 1"-->
+<!--                   color="#11A8AB"></wc-donut-part>-->
+<!--    <wc-donut-part value="5"-->
+<!--                   name="Part 1"-->
+<!--                   color="#4FC4F6"></wc-donut-part>-->
+<!--  </wc-donut-chart>-->
+</body>
+</html>

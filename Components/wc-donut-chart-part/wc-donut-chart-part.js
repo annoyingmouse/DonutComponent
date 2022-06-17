@@ -2,6 +2,9 @@
   const template = document.createElement('template')
   template.innerHTML = `
     <style>
+      :host { 
+        --end: 20deg;
+      }
       * {
         box-sizing: border-box;
       }
@@ -24,6 +27,14 @@
         animation-timing-function: ease;
         animation-name: rotate;
       }
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(var(--end));
+        }
+      }
     </style>
     <div class="holder">
       <div class="center"></div>
@@ -43,33 +54,27 @@
     constructor() {
       super()
       this.shadow = this.attachShadow({
-        mode: 'closed'
+        mode: 'open'
       })
       this.shadow.appendChild(template.content.cloneNode(true))
-      this.holder = this.shadow.querySelector('.holder')
-      this.center = this.shadow.querySelector('.center')
-      const style = document.createElement('style');
-      style.innerHTML = `
-        @keyframes rotate {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(${this.end});
-          }
-        }
-      `
-      this.shadow.prepend(style)
       this.render()
     }
     render() {
-      this.holder.style.transform = `rotate(${this.rotate})`
-      this.center.style.backgroundColor = this.color
-      this.center.style.animationDelay = this.delay
-      this.center.style.animationDuration = this.duration
-      if(this.title){
-        this.center.title = this.title
-      }
+      const sheet = new CSSStyleSheet()
+      sheet.replaceSync( `
+        :host { 
+          --end: ${this.end};
+        }
+        .holder {
+          transform: rotate(${this.rotate});
+        }
+        .center {
+          background-color: ${this.color};
+          animation-delay: ${this.delay};
+          animation-duration: ${this.duration};
+        }
+      `)
+      this.shadowRoot.adoptedStyleSheets = [sheet]
     }
 
     get end() {

@@ -14,25 +14,13 @@
       margin: 0 auto;
       border-radius: 100%
     }
-    .center {
-      position: absolute;
-      top:0;
-      left:0;
-      bottom:0;
-      right:0;
-      width: calc(var(--dimension) * .65);
-      height: calc(var(--dimension) * .65);
-      margin: auto;
-      border-radius: 50%;
-    }
   `)
-  class DonutChart extends HTMLElement {
+  class PieChart extends HTMLElement {
     static get observedAttributes() {
       return [
         'duration',
         'color',
         'delay',
-        'diameter',
         'dimension'
       ];
     }
@@ -45,13 +33,12 @@
       this.shadow.innerHTML = `
         <div class="donut-chart">
           <slot name='segments'></slot>
-          <div class="center"></div>
         </div>
       `
       this.render()
     }
     render() {
-      const segments = [...this.querySelectorAll('dm-donut-part')]
+      const segments = [...this.querySelectorAll('dm-arc-part')]
       const total = segments.reduce((p, c) => p + Number(c.getAttribute('value')), 0)
       let durationTotal = this.delay;
       let rotationTotal = 0
@@ -71,11 +58,6 @@
         :host {
           --dimension: ${this.dimension}px;
         }
-        .center {
-          background-color: ${this.color};
-          width: calc(var(--dimension) * ${this.diameter});
-          height: calc(var(--dimension) * ${this.diameter});
-        }
       `)
       this.shadowRoot.adoptedStyleSheets = [mainSheet, sheet]
     }
@@ -88,12 +70,9 @@
     get delay() {
       return Number(this.getAttribute('delay')) || 0
     }
-    get diameter() {
-      return Number(this.getAttribute('diameter')) || .65
-    }
     get dimension() {
       return Number(this.getAttribute('dimension')) || 200
     }
   }
-  window.customElements.define('dm-donut-chart', DonutChart)
+  window.customElements.define('dm-pie-chart', PieChart)
 })()

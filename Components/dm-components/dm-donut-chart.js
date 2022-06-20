@@ -30,7 +30,10 @@
     static get observedAttributes() {
       return [
         'duration',
-        'color'
+        'color',
+        'delay',
+        'diameter',
+        'dimension'
       ];
     }
     constructor() {
@@ -47,11 +50,11 @@
       `
       this.render()
     }
-    render(){
-      const segments = [...this.querySelectorAll('dm-components-part')]
+    render() {
+      const segments = [...this.querySelectorAll('dm-arc-part')]
       const total = segments.reduce((p, c) => p + Number(c.getAttribute('value')), 0)
+      let durationTotal = this.delay;
       let rotationTotal = 0
-      let durationTotal = 0
       const totalDegree = 360/total
       segments.forEach(segment => {
         const currentRotation = totalDegree * Number(segment.getAttribute('value'))
@@ -65,8 +68,13 @@
       })
       const sheet = new CSSStyleSheet()
       sheet.replaceSync( `
+        :host {
+          --dimension: ${this.dimension}px;
+        }
         .center {
           background-color: ${this.color};
+          width: calc(var(--dimension) * ${this.diameter});
+          height: calc(var(--dimension) * ${this.diameter});
         }
       `)
       this.shadowRoot.adoptedStyleSheets = [mainSheet, sheet]
@@ -75,7 +83,16 @@
       return this.getAttribute('color') || '#000000'
     }
     get duration() {
-      return this.getAttribute('duration') || '4.5s'
+      return Number(this.getAttribute('duration')) || 4.5
+    }
+    get delay() {
+      return Number(this.getAttribute('delay')) || 0
+    }
+    get diameter() {
+      return Number(this.getAttribute('diameter')) || .65
+    }
+    get dimension() {
+      return Number(this.getAttribute('dimension')) || 200
     }
   }
   window.customElements.define('dm-donut-chart', DonutChart)

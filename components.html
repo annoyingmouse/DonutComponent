@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8">
     <title>Components Only</title>
-    <script type="module" src="Components/dm-donut/dm-donut-chart.js"></script>
-    <script type="module" src="Components/dm-donut/dm-donut-part.js"></script>
+    <script type="module" src="Components/dm-components/dm-donut-chart.js"></script>
+    <script type="module" src="Components/dm-components/dm-pie-chart.js"></script>
+    <script type="module" src="Components/dm-components/dm-arc-part.js"></script>
   </head>
   <body>
     <dm-donut-chart color="#394264"
@@ -13,13 +14,27 @@
                     diameter=".6"
                     dimension="200">
       <div slot="segments">
-        <dm-donut-part color="#E64C65"
-                       value="5"></dm-donut-part>
-        <dm-donut-part color="#11A8AB"
-                       value="5"></dm-donut-part>
-        <dm-donut-part color="#4FC4F6"
-                       value="5"></dm-donut-part>
+        <dm-arc-part color="#E64C65"
+                       value="5"></dm-arc-part>
+        <dm-arc-part color="#11A8AB"
+                       value="5"></dm-arc-part>
+        <dm-arc-part color="#4FC4F6"
+                       value="5"></dm-arc-part>
       </div>
     </dm-donut-chart>
+    <dm-pie-chart color="#394264"
+                    duration="4.5"
+                    delay="2"
+                    diameter=".6"
+                    dimension="200">
+      <div slot="segments">
+        <dm-arc-part color="#E64C65"
+                       value="5"></dm-arc-part>
+        <dm-arc-part color="#11A8AB"
+                       value="5"></dm-arc-part>
+        <dm-arc-part color="#4FC4F6"
+                       value="5"></dm-arc-part>
+      </div>
+    </dm-pie-chart>
   </body>
 </html>

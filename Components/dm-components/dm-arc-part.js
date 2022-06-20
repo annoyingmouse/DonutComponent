@@ -36,7 +36,7 @@
     }
   `)
 
-  class DonutPart extends HTMLElement {
+  class ArcPart extends HTMLElement {
     static get observedAttributes() {
       return [
         'name',
@@ -101,5 +101,5 @@
       }
     }
   }
-  window.customElements.define('dm-donut-part', DonutPart)
+  window.customElements.define('dm-arc-part', ArcPart)
 })()

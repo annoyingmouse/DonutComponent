@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Testing</title>
+    <style>
+      :root {
+        --dimension: 200px;
+        --end: 120deg;
+      }
+
+      .donut-chart {
+        position: relative;
+        width: var(--dimension);
+        height: var(--dimension);
+        margin: 0px auto;
+        border-radius: 100%;
+      }
+
+      .segment-holder {
+        transform: rotate(0deg);
+        border-radius: 50%;
+        clip: rect(0, var(--dimension), var(--dimension), calc(var(--dimension) * 0.5));
+        height: 100%;
+        position: absolute;
+        width: 100%;
+      }
+
+      .segment {
+        background-color: transparent;
+        animation-delay: 0s;
+        animation-duration: 10s;
+        border-width: 65px;
+        border-color: blue;
+        border-style: solid;
+        border-radius: 50%;
+        clip: rect(0, calc(var(--dimension) * 0.5), var(--dimension), 0);
+        height: 100%;
+        position: absolute;
+        width: 100%;
+        animation-fill-mode: forwards;
+        animation-iteration-count: 1;
+        animation-timing-function: ease;
+        animation-name: rotate;
+        box-sizing: border-box;
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(var(--end));
+        }
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="donut-chart">
+      <div class="segment-holder">
+        <div class="segment"></div>
+      </div>
+    </div>
+  </body>
+</html>

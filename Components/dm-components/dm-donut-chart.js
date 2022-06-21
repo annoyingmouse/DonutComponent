@@ -14,23 +14,11 @@
       margin: 0 auto;
       border-radius: 100%
     }
-    .center {
-      position: absolute;
-      top:0;
-      left:0;
-      bottom:0;
-      right:0;
-      width: calc(var(--dimension) * .65);
-      height: calc(var(--dimension) * .65);
-      margin: auto;
-      border-radius: 50%;
-    }
   `)
   class DonutChart extends HTMLElement {
     static get observedAttributes() {
       return [
         'duration',
-        'color',
         'delay',
         'diameter',
         'dimension'
@@ -56,6 +44,7 @@
       let durationTotal = this.delay;
       let rotationTotal = 0
       const totalDegree = 360/total
+      const width = (this.dimension - (this.dimension * this.diameter)) / 2
       segments.forEach(segment => {
         const currentRotation = totalDegree * Number(segment.getAttribute('value'))
         const animationDuration = currentRotation / (360/Number(this.duration))
@@ -63,6 +52,7 @@
         segment.setAttribute('rotate', `${rotationTotal}deg`)
         segment.setAttribute('delay', `${durationTotal}s`)
         segment.setAttribute('duration', `${animationDuration}s`)
+        segment.setAttribute('width', `${width}px`)
         rotationTotal += currentRotation
         durationTotal += animationDuration
       })
@@ -71,16 +61,8 @@
         :host {
           --dimension: ${this.dimension}px;
         }
-        .center {
-          background-color: ${this.color};
-          width: calc(var(--dimension) * ${this.diameter});
-          height: calc(var(--dimension) * ${this.diameter});
-        }
       `)
       this.shadowRoot.adoptedStyleSheets = [mainSheet, sheet]
-    }
-    get color() {
-      return this.getAttribute('color') || '#000000'
     }
     get duration() {
       return Number(this.getAttribute('duration')) || 4.5

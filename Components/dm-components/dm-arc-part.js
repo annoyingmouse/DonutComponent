@@ -15,12 +15,15 @@
       width: 100%;
     }
     .segment {
+      background-color: transparent;
       border-radius: 50%;
+      border-width: 65px;
+      border-color: blue;
+      border-style: solid;
       clip: rect(0, calc(var(--dimension) * .5), var(--dimension), 0);
       height: 100%;
       position: absolute;
       width: 100%;
-      font-size: 1.5rem;
       animation-fill-mode: forwards;
       animation-iteration-count: 1;
       animation-timing-function: ease;
@@ -43,7 +46,8 @@
         'color',
         'rotate',
         'duration',
-        'start'
+        'start',
+        'width'
       ];
     }
     constructor() {
@@ -69,7 +73,9 @@
           transform: rotate(${this.rotate});
         }
         .segment {
-          background-color: ${this.color};
+          border-width: ${this.width};
+          border-color: ${this.color};
+          border-style: solid;
           animation-delay: ${this.delay};
           animation-duration: ${this.duration};
         }
@@ -94,6 +100,9 @@
     }
     get title() {
       return this.getAttribute('title') || null
+    }
+    get width() {
+      return this.getAttribute('width') || null
     }
     attributeChangedCallback(name, oldValue, newValue) {
       if((oldValue !== newValue)){

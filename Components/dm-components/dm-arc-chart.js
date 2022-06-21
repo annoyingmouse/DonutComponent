@@ -15,7 +15,7 @@
       border-radius: 100%
     }
   `)
-  class DonutChart extends HTMLElement {
+  class ArcChart extends HTMLElement {
     static get observedAttributes() {
       return [
         'duration',
@@ -33,20 +33,18 @@
       this.shadow.innerHTML = `
         <div class="donut-chart">
           <slot name='segments'></slot>
-          <div class="center"></div>
         </div>
       `
-      this.render()
     }
-    render() {
-      const segments = [...this.querySelectorAll('dm-arc-part')]
+    connectedCallback() {
+      const segments = [...this.querySelectorAll('dm-arc')]
       const total = segments.reduce((p, c) => p + Number(c.getAttribute('value')), 0)
       let durationTotal = this.delay;
       let rotationTotal = 0
       const totalDegree = 360/total
       const width = this.diameter
-        ? (this.dimension - (this.dimension * this.diameter)) / 2
-        : this.dimension / 2
+          ? (this.dimension - (this.dimension * this.diameter)) / 2
+          : this.dimension / 2
       segments.forEach(segment => {
         const currentRotation = totalDegree * Number(segment.getAttribute('value'))
         const animationDuration = currentRotation / (360/Number(this.duration))
@@ -79,5 +77,5 @@
       return Number(this.getAttribute('dimension')) || 200
     }
   }
-  window.customElements.define('dm-donut-chart', DonutChart)
+  window.customElements.define('dm-arc-chart', ArcChart)
 })()

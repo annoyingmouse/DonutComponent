@@ -1,9 +1,6 @@
 (() => {
   const mainSheet = new CSSStyleSheet()
   mainSheet.replaceSync(`
-    :host { 
-      --end: 20deg;
-    }
     * {
       box-sizing: border-box;
     }
@@ -24,18 +21,6 @@
       height: 100%;
       position: absolute;
       width: 100%;
-      animation-fill-mode: forwards;
-      animation-iteration-count: 1;
-      animation-timing-function: ease;
-      animation-name: rotate;
-    }
-    @keyframes rotate {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(var(--end));
-      }
     }
   `)
 
@@ -61,13 +46,11 @@
           <div class="segment"></div>
         </div>
       `
+      this.segment = this.shadow.querySelector('.segment')
     }
     connectedCallback() {
       const sheet = new CSSStyleSheet()
       sheet.replaceSync( `
-        :host { 
-          --end: ${this.end};
-        }
         .segment-holder {
           transform: rotate(${this.rotate});
         }
@@ -79,10 +62,23 @@
           animation-duration: ${this.duration};
         }
       `)
+      this.segment.animate(
+        [
+          {
+            transform: 'rotate(0deg)'
+          }, {
+            transform: `rotate(${this.end})`
+          }
+        ],
+        {
+          duration: this.duration,
+          delay: this.delay,
+          iterations: 1,
+          fill: 'forwards',
+          easing: 'ease-in-out',
+        }
+      )
       this.shadowRoot.adoptedStyleSheets = [mainSheet, sheet]
-      this.addEventListener('mouseover', () => {
-        console.log(this.name)
-      })
     }
     get name() {
       return this.getAttribute('name') || null
@@ -94,10 +90,10 @@
       return this.getAttribute('color') || '#000000'
     }
     get delay() {
-      return this.getAttribute('delay') || '0s'
+      return Number(this.getAttribute('delay')) || 0
     }
     get duration() {
-      return this.getAttribute('duration') || '0s'
+      return Number(this.getAttribute('duration')) || 0
     }
     get rotate() {
       return this.getAttribute('rotate') || '0deg'

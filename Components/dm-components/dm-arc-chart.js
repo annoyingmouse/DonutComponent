@@ -35,6 +35,7 @@
           <slot name='segments'></slot>
         </div>
       `
+      this.segments = this.querySelector("[slot='segments']")
     }
     connectedCallback() {
       const segments = [...this.querySelectorAll('dm-arc')]
@@ -50,8 +51,8 @@
         const animationDuration = currentRotation / (360/Number(this.duration))
         segment.setAttribute('end', `${currentRotation}deg`)
         segment.setAttribute('rotate', `${rotationTotal}deg`)
-        segment.setAttribute('delay', `${durationTotal}s`)
-        segment.setAttribute('duration', `${animationDuration}s`)
+        segment.setAttribute('delay', durationTotal)
+        segment.setAttribute('duration', animationDuration)
         segment.setAttribute('width', `${width}px`)
         rotationTotal += currentRotation
         durationTotal += animationDuration
@@ -65,7 +66,7 @@
       this.shadowRoot.adoptedStyleSheets = [mainSheet, sheet]
     }
     get duration() {
-      return Number(this.getAttribute('duration')) || 4.5
+      return Number(this.getAttribute('duration')) || 4500
     }
     get delay() {
       return Number(this.getAttribute('delay')) || 0

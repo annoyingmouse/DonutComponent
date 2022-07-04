@@ -1,4 +1,5 @@
 (() => {
+
   const mainSheet = new CSSStyleSheet()
   mainSheet.replaceSync(`
     :host {
@@ -32,7 +33,7 @@
       this.shadow.adoptedStyleSheets = [mainSheet];
       this.shadow.innerHTML = `
         <div class="donut-chart">
-          <slot name='segments'></slot>
+          <slot name='segment'></slot>
         </div>
       `
       this.segments = this.querySelector("[slot='segments']")

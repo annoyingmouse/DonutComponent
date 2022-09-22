@@ -4,13 +4,6 @@
     * {
       box-sizing: border-box;
     }
-    .segment-holder {
-      border-radius: 50%;
-      clip: rect(0, var(--dimension), var(--dimension), calc(var(--dimension) * 0.5));
-      height: 100%;
-      position: absolute;
-      width: 100%;
-    }
     .segment {
       background-color: transparent;
       border-radius: 50%;
@@ -27,12 +20,12 @@
   class Arc extends HTMLElement {
     static get observedAttributes() {
       return [
-        'name',
-        'color',
-        'rotate',
-        'duration',
-        'start',
-        'width'
+        // 'name',
+        // 'color',
+        // 'rotate',
+        // 'duration',
+        // 'start',
+        // 'width',
       ];
     }
     constructor() {
@@ -42,25 +35,14 @@
       })
       this.shadow.adoptedStyleSheets = [mainSheet];
       this.shadow.innerHTML = `
-        <div class="segment-holder">
-          <div class="segment"></div>
-        </div>
+        <div class="segment"></div>
       `
       this.segment = this.shadow.querySelector('.segment')
     }
     connectedCallback() {
       const sheet = new CSSStyleSheet()
       sheet.replaceSync( `
-        .segment-holder {
-          transform: rotate(${this.rotate});
-        }
-        .segment {
-          border-width: ${this.width};
-          border-color: ${this.color};
-          border-style: solid;
-          animation-delay: ${this.delay};
-          animation-duration: ${this.duration};
-        }
+        
       `)
       this.segment.animate(
         [

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Donut Chart Web Component</title>
+  <script type="module" src="Components/wc-donut-chart/wc-donut-chart.js"></script>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+  <h1><span style="text-decoration: line-through;">Doughnut</span> Donut Chart Web Component</h1>
+  <wc-donut-chart id="test"
+                 values='[
+                   {
+                     "name":"Part 1",
+                     "value":5,
+                     "color":"black"
+                   },{
+                     "name":"Part 2",
+                     "value":5,
+                     "color":"rgba(252, 194, 51, 0.8)"
+                   },{
+                     "name":"Part 3",
+                     "value":5,
+                     "color":"rgba(53, 57, 44, 0.5)"
+                   }
+                 ]'
+                 part-1-value="5"
+                 part-1-name="Part 1"
+                 part-1-color="#E64C65"
+                 part-2-value="5"
+                 part-2-name="Part 2"
+                 part-2-color="#11A8AB"
+                 part-3-value="5"
+                 part-3-name="Part 3"
+                 part-3-color="#4FC4F6"
+                 animation-duration="3"
+                 hole-color="#394264"></wc-donut-chart>
+  <wc-donut-chart id="grey"></wc-donut-chart>
+
+  <table>
+    <tr>
+      <td>
+        <wc-donut-chart id="test"
+                        part-1-value="5"
+                        part-1-name="Part 1"
+                        part-1-color="#E64C65"
+                        part-2-value="5"
+                        part-2-name="Part 2"
+                        part-2-color="#11A8AB"
+                        part-3-value="5"
+                        part-3-name="Part 3"
+                        part-3-color="#4FC4F6"
+                        animation-duration="3"
+                        hole-color="#394264"></wc-donut-chart>
+      </td>
+      <td>
+        <wc-donut-chart values='[{"name":"part 1","value":5,"color":"#FF0000"},{"name":"part 2","value":5,"color":"#00FF00"},{"name":"part 3","value":5,"color":"#0000FF"}]'
+                         animation-duration="3"
+                         hole-color="#FFFFFF"></wc-donut-chart>
+      </td>
+      <td>
+        <wc-donut-chart values='[{"name":"part 1","value":120,"color":"#FF0000"},{"name":"part 2","value":120,"color":"#00FF00"},{"name":"part 3","value":120,"color":"#0000FF"}]'
+                         animation-duration="1"
+                         hole-color="#FFFFFF"></wc-donut-chart>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <wc-donut-chart values='[{"name":"part 1","value":120,"color":"#FF0000"},{"name":"part 2","value":120,"color":"#00FF00"},{"name":"part 3","value":120,"color":"#0000FF"},{"name":"part 4","value":120,"color":"#00FFFF"}]'
+                         animation-duration="3"
+                         hole-color="#FFFFFF"></wc-donut-chart>
+      </td>
+      <td>
+        <wc-donut-chart values='[{"name":"part 1","value":120,"color":"#eeeeee"},{"name":"part 2","value":120,"color":"#cccccc"},{"name":"part 3","value":120,"color":"#999999"},{"name":"part 4","value":120,"color":"#666666"},{"name":"part 4","value":120,"color":"#333333"},{"name":"part 4","value":120,"color":"#000000"}]'
+                         animation-duration="5"
+                         hole-color="#cccccc"></wc-donut-chart>
+      </td>
+      <td></td>
+    </tr>
+  </table>
+  <script>
+    (()=> {
+      setTimeout(() => {
+        const test = document.getElementById('test')
+        test.setAttribute('hole-color', '#ffffff')
+      }, 3000)
+      setTimeout(() => {
+        const test = document.getElementById('test')
+        test.setAttribute('animation-duration', '7')
+      }, 6000)
+
+      const getRandomColor = () => {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
+
+      setTimeout(() => {
+        const test = document.getElementById('test')
+        const segments = Math.floor(Math.random() * 20) + 1;
+        const arr = []
+        for(let i = 0; i < segments; i++){
+          arr.push({
+            name: Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5),
+            value: Math.floor(Math.random() * 100) + 1,
+            color: getRandomColor()
+          })
+        }
+        test.setAttribute('values', JSON.stringify(arr))
+        test.setAttribute('animation-duration', Math.floor(Math.random() * 9) + 2)
+        test.setAttribute('hole-color', getRandomColor())
+      }, 13000)
+    })()
+
+    const greys = ['#000000', '#080808', '#101010', '#181818', '#202020', '#282828', '#303030', '#383838', '#404040', '#484848', '#505050', '#585858', '#606060', '#686868', '#696969', '#707070', '#787878', '#808080', '#888888', '#909090', '#989898', '#A0A0A0', '#A8A8A8', '#A9A9A9', '#B0B0B0', '#B8B8B8', '#BEBEBE', '#C0C0C0', '#C8C8C8', '#D0D0D0', '#D3D3D3', '#D8D8D8', '#DCDCDC', '#E0E0E0', '#E8E8E8', '#F0F0F0', '#F5F5F5', '#F8F8F8', '#FFFFFF']
+    const grey = document.getElementById('grey')
+    grey.setAttribute('hole-color', '#000000')
+    grey.setAttribute('animation-duration', '5')
+    grey.setAttribute('values', JSON.stringify(greys.reduce((previousValue, currentValue) => {
+      previousValue.push({
+        name: `Part ${currentValue}`,
+        color: currentValue,
+        value: 1
+      })
+      return previousValue
+    }, [])))
+  </script>
+</body>
+</html>

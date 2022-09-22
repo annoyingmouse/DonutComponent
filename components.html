@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <title>Components Only</title>
-    <script type="module" src="Components/dm-components/dm-arc-chart.js"></script>
-    <script type="module" src="Components/dm-components/dm-arc.js"></script>
+    <script type="module" src="Components/dm-components_old/dm-pie-chart.js"></script>
+    <script type="module" src="Components/dm-components_old/dm-arc-part.js"></script>
   </head>
   <body>
     <dm-arc-chart duration="4500"
@@ -14,15 +14,15 @@
       <dm-arc color="#E64C65"
               slot="segment"
               name="Part 1"
-              value="5"></dm-arc>
+              value="1"></dm-arc>
       <dm-arc color="#11A8AB"
               slot="segment"
               name="Part 2"
-              value="5"></dm-arc>
+              value="2"></dm-arc>
       <dm-arc color="#4FC4F6"
               slot="segment"
               name="Part 3"
-              value="5"></dm-arc>
+              value="4"></dm-arc>
     </dm-arc-chart>
     <dm-arc-chart duration="4500"
                   dimension="200">
@@ -35,6 +35,19 @@
       <dm-arc color="#4FC4F6"
               slot="segment"
               value="5"></dm-arc>
+    </dm-arc-chart>
+
+    <dm-arc-chart duration="4500"
+                  diameter=".6"
+                  dimension="200">
+      <dm-arc color="#12FBA7"
+              slot="segment"
+              name="PAKO"
+              value="12"></dm-arc>
+      <dm-arc color="#429E2F"
+              slot="segment"
+              name="PouchDB"
+              value="24"></dm-arc>
     </dm-arc-chart>
   </body>
 </html>

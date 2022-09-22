@@ -13,16 +13,15 @@
       width: var(--dimension);
       height: var(--dimension);
       margin: 0 auto;
-      border-radius: 100%
     }
   `)
   class ArcChart extends HTMLElement {
     static get observedAttributes() {
       return [
-        'duration',
-        'delay',
-        'diameter',
-        'dimension'
+        'duration', // total duration of the animation
+        'delay',    // delay before the start of the animation
+        'diameter', // width of the arc
+        'dimension' // width of the chart
       ];
     }
     constructor() {
@@ -44,9 +43,6 @@
       let durationTotal = this.delay;
       let rotationTotal = 0
       const totalDegree = 360/total
-      const width = this.diameter
-          ? (this.dimension - (this.dimension * this.diameter)) / 2
-          : this.dimension / 2
       segments.forEach(segment => {
         const currentRotation = totalDegree * Number(segment.getAttribute('value'))
         const animationDuration = currentRotation / (360/Number(this.duration))
@@ -54,7 +50,7 @@
         segment.setAttribute('rotate', `${rotationTotal}deg`)
         segment.setAttribute('delay', durationTotal)
         segment.setAttribute('duration', animationDuration)
-        segment.setAttribute('width', `${width}px`)
+        segment.setAttribute('width', this.dimension)
         rotationTotal += currentRotation
         durationTotal += animationDuration
       })

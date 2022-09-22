@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script type="module" src="Components/dm-pie/dm-pie-chart.js"></script>
+    <script type="module" src="Components/wc-pie-chart/wc-pie-chart.js"></script>
   </head>
   <body>
-    <dm-pie-chart width="300"
-                  duration="3000">
-      <div slot="pie-slices">
-        <dm-pie-slice value="1"
-                      color="orange"></dm-pie-slice>
-        <dm-pie-slice value="2"
-                      color="red"></dm-pie-slice>
-        <dm-pie-slice value="3"
-                      color="blue"></dm-pie-slice>
-      </div>
-    </dm-pie-chart>
+    <wc-pie-chart id="existing" thickness="0.1">
+      <wc-pie-slice value="1"
+                    color="red"/>
+      <wc-pie-slice value="2"/>
+      <wc-pie-slice value="3"/>
+    </wc-pie-chart>
+    <wc-pie-chart width="500">
+      <wc-pie-slice value="1"
+                    color="red"/>
+      <wc-pie-slice value="1.5"
+                    color="green"/>
+      <wc-pie-slice value="6"
+                    color="blue"/>
+    </wc-pie-chart>
+    <hr>
+    <div id="test"></div>
+    <wc-pie-chart id="grey"></wc-pie-chart>
+    <script src="index.js"></script>
   </body>
 </html>
